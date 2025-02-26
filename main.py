@@ -1,5 +1,5 @@
 import sys 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QLineEdit, QGridLayout
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QLineEdit, QGridLayout, QLabel
 
 class Calculator(QWidget):
     def __init__(self):
@@ -11,27 +11,36 @@ class Calculator(QWidget):
     def initUI(self):
         layout = QVBoxLayout()
         self.setLayout(layout)
-        self.display = QLineEdit()
+        self.display = QLabel()
+        self.display.setStyleSheet("font-family: Arial; font-size: 30px; color: white; background-color: black; padding: 10px;")
 
         layout.addWidget(self.display)
+        main_buttons_color = "#282929"
+        top_buttons_color = "#a5a5a5"
+        side_buttons_color = "#d17402"
 
         grid = QGridLayout()
         buttons = [
-            ('C', 0, 0, "gray"), ('+/-', 0, 1, "gray"), ('%', 0, 2, "gray"), ('/', 0, 3, "orange"),
-            ('7', 1, 0, "dark"), ('8', 1, 1, "dark"), ('9', 1, 2, "dark"), ('*', 1, 3, "orange"),
-            ('4', 2, 0, "dark"), ('5', 2, 1, "dark"), ('6', 2, 2, "dark"), ('-', 2, 3, "orange"),
-            ('1', 3, 0, "dark"), ('2', 3, 1, "dark"), ('3', 3, 2, "dark"), ('+', 3, 3, "orange"),
-            ('0', 4, 0, "dark_large"), ('.', 4, 2, "dark"), ('=', 4, 3, "orange")
+            ('C', 0, 0, top_buttons_color), ('+/-', 0, 1, top_buttons_color), ('%', 0, 2, top_buttons_color), ('/', 0, 3, side_buttons_color),
+            ('7', 1, 0, main_buttons_color), ('8', 1, 1, main_buttons_color), ('9', 1, 2, main_buttons_color), ('*', 1, 3, side_buttons_color),
+            ('4', 2, 0, main_buttons_color), ('5', 2, 1, main_buttons_color), ('6', 2, 2, main_buttons_color), ('-', 2, 3, side_buttons_color),
+            ('1', 3, 0, main_buttons_color), ('2', 3, 1, main_buttons_color), ('3', 3, 2, main_buttons_color), ('+', 3, 3, side_buttons_color),
+            ('0', 4, 0, main_buttons_color), ('00', 4,1,main_buttons_color),('.', 4, 2, main_buttons_color), ('=', 4, 3, side_buttons_color)
         ]
 
         for text,row,col,color in buttons:
             button = QPushButton(text)
-            button.setStyleSheet(f"background-color: {color}")
-            # button.clicked.connect(self.buttonClicked)
+            button.setStyleSheet(f"background-color: {color};color: white; width: 60px; height: 60px; font-size: 20px; border-radius: 30px;")
+            button.clicked.connect(self.buttonClicked)
             grid.addWidget(button, row, col)
 
         layout.addLayout(grid)
-        
+        self.setStyleSheet("background-color: black;")
+    
+    def buttonClicked(self):
+        button = self.sender().text()
+        self.display.setText(self.display.text() + button)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

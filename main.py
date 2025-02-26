@@ -39,7 +39,23 @@ class Calculator(QWidget):
     
     def buttonClicked(self):
         button = self.sender().text()
-        self.display.setText(self.display.text() + button)
+        if button == "C":
+            self.display.setText("")
+        
+        elif button == "=":
+            try:
+                self.display.setText(str(eval(self.display.text())))
+            except:
+                self.display.setText("Error")
+        
+        elif button == "%":
+            self.display.setText(str(eval(self.display.text())*0.01))
+
+        elif button == "+/-":
+            self.display.setText(str(-1*eval(self.display.text())))
+        
+        else:
+            self.display.setText(self.display.text() + button)
 
 
 if __name__ == "__main__":
